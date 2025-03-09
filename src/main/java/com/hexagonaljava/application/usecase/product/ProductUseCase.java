@@ -5,8 +5,6 @@ import java.util.List;
 import com.hexagonaljava.domain.entity.Product;
 import com.hexagonaljava.domain.repository.ProductRepository;
 
-
-
 public class ProductUseCase {
     private final ProductRepository repository;
 
@@ -14,7 +12,7 @@ public class ProductUseCase {
         this.repository = repository;
     }
 
-    public void registrarproducto(String id, String nombre, int stock) {
+    public void registrarproducto(int id, String nombre, int stock) {
         Product producto = new Product(id, nombre, stock);
         repository.guardar(producto);
     }
@@ -27,8 +25,8 @@ public class ProductUseCase {
         return repository.listarTodos();
     }
 
-    public void actualizarproducto(String id, String nombre, int Stock) {
-        Product producto = new Product(id, nombre, Stock);
+    public void actualizarproducto(int id, String nombre, int stock) {
+        Product producto = new Product(id, nombre, stock);
         repository.actualizar(producto);
     }
 
@@ -36,14 +34,10 @@ public class ProductUseCase {
         repository.eliminar(id);
     }
 
-    public void registrarproducto(int productoid, String nameProducto, int stock){
-        throw new UnsupportedOperationException("Unimplemented method 'registrarProducto'");
-    }
+    // Métodos duplicados eliminados y completados
 
     public List<Product> listarProductos() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listarProductos'");
+        return repository.listarTodos();
     }
-
 }
 

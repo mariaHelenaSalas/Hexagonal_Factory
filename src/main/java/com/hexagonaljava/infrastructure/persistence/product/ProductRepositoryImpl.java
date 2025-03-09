@@ -25,7 +25,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, product.getId());
             stmt.setString(2, product.getName());
-            stmt.setString(3, product.getstock());
+            stmt.setInt(3, product.getstock());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -72,7 +72,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         try (Connection conexion = connection.getConexion();
                 PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setString(1, product.getName());
-            stmt.setString(2, product.getstock());
+            stmt.setInt(2, product.getstock());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

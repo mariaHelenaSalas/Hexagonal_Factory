@@ -3,16 +3,13 @@ package com.hexagonaljava.domain.entity;
 public class Product {
     private int id;
     private String name;
-    private String stock;
-    public Product(String stock, String name, int id) {
+    private int stock;
+    public Product(int id2, String name, int id) {
         this.id = id;
         this.name = name;
-        this.stock = stock;
+        this.stock = id2;
     }
 
-    public Product(int int1, String string, int id){
-        return;
-    }
     public  int getId() {
         return id;
     }
@@ -25,11 +22,14 @@ public class Product {
     public void setName(String name) {
         this.name = name;
     }
-    public String getstock() {
+    public int getstock() {
         return stock;
     }
-    public void setstock(String stock) {
+    public void setstock(int stock) {
         this.stock = stock;
     }
     
+    public String toString() {
+        return String.format("ID: %d | NOMBRE: %s | STOCK: %s", id, name, stock);
+    }
 }

@@ -37,13 +37,10 @@ public class Client {
 
     // Metodo toString
     @Override
+   
     public String toString() {
-        return "Cliente{" +
-                "id =" + id +
-                ", nombre='" + name + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-
+        return String.format("ID: %d | Nombre: %s | Email: %s", id, name, email);
     }
+    
 
 }

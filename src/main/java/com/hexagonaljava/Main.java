@@ -22,95 +22,202 @@ public class Main {
         ProductUseCase productUseCase = new ProductUseCase(productRepository);
 
         
-        try(Scanner teclado = new Scanner(System.in)){
+        try (Scanner teclado = new Scanner(System.in)) {
             int option;
 
-           do {
-            System.out.println("-------GESTION DE CLIENTES---------");
-            System.out.println("Seleccione una opcion");
-            System.out.println("1. Gestionar Clientes");
-            System.out.println("2. listar cliente");
-            System.out.println("3. Actualizar datos de cliente");
-            System.out.println("-------GESTION DE PRODUCTOS---------");
-            System.out.println("3. Gestionar productos");
-            System.out.println("4. Listar productos");
-            System.out.println("0. Salir");
-            System.out.println("Ingrese opcion");
+            do {
+                System.out.println("\n=================================");
+                System.out.println("         MENU PRINCIPAL         ");
+                System.out.println("=================================");
+                System.out.println("1  Gestión de Clientes");
+                System.out.println("2  Gestión de Productos");
+                System.out.println("0  Salir");
+                System.out.println("=================================");
+                System.out.print("Ingrese una opción: ");
 
-            option = teclado.nextInt();
+                while (!teclado.hasNextInt()) { // Validar que sea un número
+                    System.out.println(" Entrada inválida. Ingrese un número.");
+                    teclado.next(); // Limpiar entrada incorrecta
+                }
+                option = teclado.nextInt();
+                teclado.nextLine(); // Limpiar buffer
 
-            teclado.nextLine(); // consumir la nueva linea
+                switch (option) {
+                    case 1:
+                        menuClientes(teclado, clientUseCase);
+                        break;
+                    case 2:
+                        menuProductos(teclado, productUseCase);
+                        break;
+                    case 0:
+                        System.out.println(" Saliendo... ¡Hasta luego!");
+                        break;
+                    default:
+                        System.out.println(" Opción no válida. Intente nuevamente.");
+                }
+            } while (option != 0);
+        }
+    }
 
-            switch (option) {
+    private static void menuClientes(Scanner teclado, ClientUseCase clientUseCase) {
+        int opcion;
+        do {
+            System.out.println("\n=================================");
+            System.out.println("      GESTIÓN DE CLIENTES        ");
+            System.out.println("=================================");
+            System.out.println("1  Registrar Cliente");
+            System.out.println("2  Listar Clientes");
+            System.out.println("3  Actualizar Cliente");
+            System.out.println("4  Eliminar Cliente");
+            System.out.println("0  Volver al menú principal");
+            System.out.println("=================================");
+            System.out.print("Seleccione una opción: ");
+
+            while (!teclado.hasNextInt()) {
+                System.out.println(" Entrada inválida. Ingrese un número.");
+                teclado.next();
+            }
+            opcion = teclado.nextInt();
+            teclado.nextLine();
+
+            switch (opcion) {
                 case 1:
-                  // gestion de clientes
-                 System.out.println("Ingrese el ID del cliente: ");
-                 int id = teclado.nextInt();
-                 teclado.nextLine(); // consumir la nueva linea
-
-                 System.out.println("Ingrese su nombre: ");
-                 String nombre = teclado.nextLine();
-
-                 System.out.println("Ingrese su Email: ");
-                 String email = teclado.nextLine();
-
-                 clientUseCase.registrarCliente(id, nombre, email);
-                 System.out.println("CLIENTE REGISTRADO CON EXITO");
+                    System.out.print("Ingrese el ID del cliente: ");
+                    int id = validarEntero(teclado);
                     
+                    System.out.print("Ingrese el nombre del cliente: ");
+                    String nombre = teclado.nextLine();
+
+                    System.out.print("Ingrese el Email: ");
+                    String email = teclado.nextLine();
+
+                    clientUseCase.registrarCliente(id, nombre, email);
+                    System.out.println(" CLIENTE REGISTRADO CON ÉXITO");
                     break;
 
                 case 2:
-                 // LISTAR CLIENTE
-                 List<Client> cliente = clientUseCase.listarClientes();
-                 System.out.println("Lista de clientes: ");
-                 for (Client client : cliente){
-                    System.out.println(client);
-                 }
+                    List<Client> clientes = clientUseCase.listarClientes();
+                    System.out.println("\n Lista de Clientes:");
+                    for (Client cliente : clientes) {
+                        System.out.println(cliente);
+                    }
                     break;
 
-                    case 3:
-                    // actualizar clientes 
-                    System.out.println("Ingrese el id del cliente que desea actualizar ");
-                    //  int id = teclado.nextInt();
-                     teclado.nextLine(); 
-                    case 4:
-                     //Gestion de producto
-                     System.out.println("Ingrese el ID del producto: ");
-                     int productoid = teclado.nextInt();
-                     teclado.nextLine(); //consumir la nueva linea
+                case 3:
+                    System.out.print("Ingrese el ID del cliente que desea actualizar: ");
+                    int idActualizar = validarEntero(teclado);
 
-                     System.out.println("Ingrese el nombre del producto: ");
-                     String nombreProducto = teclado.nextLine();
+                    System.out.print("Ingrese el nuevo nombre: ");
+                    String nuevoNombre = teclado.nextLine();
 
-                     System.out.println("Ingrese Stock del producto: ");
-                     int stock = teclado.nextInt();
+                    System.out.print("Ingrese el nuevo email: ");
+                    String nuevoEmail = teclado.nextLine();
 
-                     productUseCase.registrarproducto(productoid, nombreProducto, stock);
-                     System.out.println("Producto registrado exitosamente.");
-                
-
+                    clientUseCase.actualizarCliente(idActualizar, nuevoNombre, nuevoEmail);
+                    System.out.println(" CLIENTE ACTUALIZADO CON ÉXITO");
                     break;
 
-                    case 5:
-                           // Listar Productos
-                        List<Product> productos = productUseCase.listarProductos();
-                        System.out.println("Lista de Productos:");
-                        for (Product producto : productos) {
-                            System.out.println(producto);
-                        }
+                case 4:
+                    System.out.print("Ingrese el ID del cliente a eliminar: ");
+                    int idEliminar = validarEntero(teclado);
 
+                    clientUseCase.eliminarCliente(idEliminar);
+                    System.out.println(" CLIENTE ELIMINADO CON ÉXITO");
                     break;
 
-                    case 0:
-                    System.out.println("👋 Saliendo...");
+                case 0:
+                    System.out.println(" Volviendo al menú principal...");
                     break;
 
                 default:
-                System.out.println("Opción no válida. Intente nuevamente.");
-                    break;
+                    System.out.println(" Opción no válida. Intente nuevamente.");
             }
-           } while (option != 0);
+        } while (opcion != 0);
+    }
 
+    private static void menuProductos(Scanner teclado, ProductUseCase productUseCase) {
+        int opcion;
+        do {
+            System.out.println("\n=================================");
+            System.out.println("     GESTIÓN DE PRODUCTOS        ");
+            System.out.println("=================================");
+            System.out.println("1  Registrar Producto");
+            System.out.println("2  Listar Productos");
+            System.out.println("3  Actualizar Producto");
+            System.out.println("4  Eliminar Producto");
+            System.out.println("0  Volver al menú principal");
+            System.out.println("=================================");
+            System.out.print("Seleccione una opción: ");
+
+            while (!teclado.hasNextInt()) {
+                System.out.println(" Entrada inválida. Ingrese un número.");
+                teclado.next();
+            }
+            opcion = teclado.nextInt();
+            teclado.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    System.out.print("Ingrese el ID del producto: ");
+                    int id = validarEntero(teclado);
+
+                    System.out.print("Ingrese el nombre del producto: ");
+                    String nombre = teclado.nextLine();
+
+                    System.out.print("Ingrese el stock del producto: ");
+                    int stock = validarEntero(teclado);
+
+                    productUseCase.registrarproducto(id, nombre, stock);
+                    System.out.println(" PRODUCTO REGISTRADO CON ÉXITO");
+                    break;
+
+                case 2:
+                    List<Product> productos = productUseCase.listarProductos();
+                    System.out.println("\n Lista de Productos:");
+                    for (Product producto : productos) {
+                        System.out.println(producto);
+                    }
+                    break;
+
+                case 3:
+                    System.out.print("Ingrese el ID del producto a actualizar: ");
+                    int idActualizar = validarEntero(teclado);
+
+                    System.out.print("Ingrese el nuevo nombre: ");
+                    String nuevoNombre = teclado.nextLine();
+
+                    System.out.print("Ingrese el nuevo stock: ");
+                    int nuevoStock = validarEntero(teclado);
+
+                    productUseCase.actualizarproducto(idActualizar, nuevoNombre, nuevoStock);
+                    System.out.println(" PRODUCTO ACTUALIZADO CON ÉXITO");
+                    break;
+
+                case 4:
+                    System.out.print("Ingrese el ID del producto a eliminar: ");
+                    int idEliminar = validarEntero(teclado);
+
+                    productUseCase.eliminarproducto(idEliminar);
+                    System.out.println(" PRODUCTO ELIMINADO CON ÉXITO");
+                    break;
+
+                case 0:
+                    System.out.println(" Volviendo al menú principal...");
+                    break;
+
+                default:
+                    System.out.println(" Opción no válida. Intente nuevamente.");
+            }
+        } while (opcion != 0);
+    }
+
+    private static int validarEntero(Scanner teclado) {
+        while (!teclado.hasNextInt()) {
+            System.out.println(" Entrada inválida. Ingrese un número válido.");
+            teclado.next();
         }
+        int numero = teclado.nextInt();
+        teclado.nextLine(); // Limpiar buffer
+        return numero;
     }
 }

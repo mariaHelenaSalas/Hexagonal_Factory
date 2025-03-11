@@ -4,7 +4,7 @@ public class Product {
     private int id;
     private String name;
     private int stock;
-    public Product(int id2, String name, int id) {
+    public Product(int id, String name, int id2) {
         this.id = id;
         this.name = name;
         this.stock = id2;

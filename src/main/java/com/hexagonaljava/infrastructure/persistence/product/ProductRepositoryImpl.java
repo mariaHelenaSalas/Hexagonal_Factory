@@ -71,8 +71,10 @@ public class ProductRepositoryImpl implements ProductRepository {
         String sql = "UPDATE product SET name = ?, stock = ? WHERE id = ?";
         try (Connection conexion = connection.getConexion();
                 PreparedStatement stmt = conexion.prepareStatement(sql)) {
+                
             stmt.setString(1, product.getName());
             stmt.setInt(2, product.getstock());
+            stmt.setInt(3, product.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

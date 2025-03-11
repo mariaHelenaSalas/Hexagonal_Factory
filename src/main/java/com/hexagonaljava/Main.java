@@ -90,6 +90,16 @@ public class Main {
 
                     System.out.print("Ingrese el Email: ");
                     String email = teclado.nextLine();
+                    
+                    if (email.contains("@")) {
+                        clientUseCase.registrarCliente(id, nombre, email);
+                        System.out.println("    El cliente se ha registrado Exitosamnete");
+                        System.out.println("---------------------------------------");
+                        
+                    }else{
+                            System.out.println("Es obligatorio que tenga el parametro @");
+
+                    }
 
                     clientUseCase.registrarCliente(id, nombre, email);
                     System.out.println(" CLIENTE REGISTRADO CON ÉXITO");
@@ -116,13 +126,25 @@ public class Main {
                     clientUseCase.actualizarCliente(idActualizar, nuevoNombre, nuevoEmail);
                     System.out.println(" CLIENTE ACTUALIZADO CON ÉXITO");
                     break;
+                    
 
                 case 4:
+                
                     System.out.print("Ingrese el ID del cliente a eliminar: ");
                     int idEliminar = validarEntero(teclado);
 
                     clientUseCase.eliminarCliente(idEliminar);
                     System.out.println(" CLIENTE ELIMINADO CON ÉXITO");
+
+                    if (clientUseCase.obtenerCliente(idEliminar) != null) {
+                        clientUseCase.eliminarCliente(idEliminar);
+                        System.out.println("el cliente no  ha sido eliminado exitosamente ");
+
+                    }else {
+                        System.out.println("El cliente con id " + idEliminar + "ya no existe");
+                    }
+                    System.out.println("------------------------------------------");
+                
                     break;
 
                 case 0:

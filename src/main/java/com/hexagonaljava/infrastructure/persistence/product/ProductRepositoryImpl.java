@@ -85,13 +85,16 @@ public class ProductRepositoryImpl implements ProductRepository {
     public void eliminar(int id) {
         String sql = "DELETE FROM product WHERE id = ?";
         try (Connection conexion = connection.getConexion();
-             PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        
     }
+
 
     
 

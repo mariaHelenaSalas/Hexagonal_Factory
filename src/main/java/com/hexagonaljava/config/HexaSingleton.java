@@ -16,12 +16,12 @@ public enum HexaSingleton {
     private void cargarConfiguraciones(String rutaArchivo) {
         try (InputStream archivo = getClass().getClassLoader().getResourceAsStream(rutaArchivo)) {
             if (archivo == null) {
-                System.err.println("❌ Error cargando configuración: archivo no encontrado.");
+                System.err.println(" Error cargando configuración: archivo no encontrado.");
                 return;
             }
             propiedades.load(archivo);
         } catch (IOException e) {
-            System.err.println("❌ Error cargando configuración: " + e.getMessage());
+            System.err.println(" Error cargando configuración: " + e.getMessage());
         }
     }
 
@@ -29,4 +29,5 @@ public enum HexaSingleton {
         return propiedades.getProperty(clave, "No encontrado");
     }
 }
+
 

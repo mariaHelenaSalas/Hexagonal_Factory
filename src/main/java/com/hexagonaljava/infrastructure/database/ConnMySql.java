@@ -15,7 +15,8 @@ public class ConnMySql implements ConnectionDb {
         String usuario = config.get("db.user"); // Clave corregida
         String password = config.get("db.password"); // Clave corregida
 
-        System.out.println("🔌 Conectando a la base de datos con usuario: " + usuario);
+        System.out.println(" Conectando a la base de datos con usuario: " + usuario);
         return DriverManager.getConnection(url, usuario, password);
     }
 }
+ 

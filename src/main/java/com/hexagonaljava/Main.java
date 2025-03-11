@@ -35,7 +35,7 @@ public class Main {
                 System.out.println("=================================");
                 System.out.print("Ingrese una opción: ");
 
-                while (!teclado.hasNextInt()) { // Validar que sea un número
+                while (!teclado.hasNextInt()) { // me valida que sea un número
                     System.out.println(" Entrada inválida. Ingrese un número.");
                     teclado.next(); // Limpiar entrada incorrecta
                 }
@@ -81,7 +81,7 @@ public class Main {
             teclado.nextLine();
 
             switch (opcion) {
-                case 1:
+                case 1:        //registro los clientes
                     System.out.print("Ingrese el ID del cliente: ");
                     int id = validarEntero(teclado);
                     
@@ -103,7 +103,7 @@ public class Main {
                     }
                     break;
 
-                case 3:
+                case 3:        //actualizo el cliente
                     System.out.print("Ingrese el ID del cliente que desea actualizar: ");
                     int idActualizar = validarEntero(teclado);
 
@@ -132,7 +132,7 @@ public class Main {
                 default:
                     System.out.println(" Opción no válida. Intente nuevamente.");
             }
-        } while (opcion != 0);
+        } while (opcion != 0);// vuelve al menu
     }
 
     private static void menuProductos(Scanner teclado, ProductUseCase productUseCase) {
@@ -157,7 +157,7 @@ public class Main {
             teclado.nextLine();
 
             switch (opcion) {
-                case 1:
+                case 1:         // registro producto
                     System.out.print("Ingrese el ID del producto: ");
                     int id = validarEntero(teclado);
 
@@ -179,7 +179,7 @@ public class Main {
                     }
                     break;
 
-                case 3:
+                case 3:     // actualizo producto
                     System.out.print("Ingrese el ID del producto a actualizar: ");
                     int idActualizar = validarEntero(teclado);
 

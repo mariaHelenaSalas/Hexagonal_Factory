@@ -21,7 +21,6 @@ public class Main {
         ClientUseCase clientUseCase = new ClientUseCase(clientRepository);
         ProductUseCase productUseCase = new ProductUseCase(productRepository);
 
-        
         try (Scanner teclado = new Scanner(System.in)) {
             int option;
 
@@ -81,23 +80,35 @@ public class Main {
             teclado.nextLine();
 
             switch (opcion) {
-                case 1:        //registro los clientes
+                case 1: // registro los clientes
                     System.out.print("Ingrese el ID del cliente: ");
                     int id = validarEntero(teclado);
-                    
+
+                    // Verificar si el ID ya está registrado
+                    if (clientUseCase.obtenerCliente(id) != null) {
+                        System.out.println(" ERROR: Ya existe un cliente con ID " + id);
+                        break;
+                    }
+
                     System.out.print("Ingrese el nombre del cliente: ");
-                    String nombre = teclado.nextLine();
+                    String nombre = teclado.nextLine().trim();
+
+                    if (nombre.isEmpty()) {
+                        System.out.println(" ERROR: El nombre no puede estar vacío.");
+                        break;
+                    }
+
 
                     System.out.print("Ingrese el Email: ");
                     String email = teclado.nextLine();
-                    
+
                     if (email.contains("@")) {
                         clientUseCase.registrarCliente(id, nombre, email);
                         System.out.println("    El cliente se ha registrado Exitosamnete");
                         System.out.println("---------------------------------------");
-                        
-                    }else{
-                            System.out.println("Es obligatorio que tenga el parametro @");
+
+                    } else {
+                        System.out.println("Es obligatorio que tenga el parametro @.com");
 
                     }
 
@@ -113,7 +124,7 @@ public class Main {
                     }
                     break;
 
-                case 3:        //actualizo el cliente
+                case 3: // actualizo el cliente
                     System.out.print("Ingrese el ID del cliente que desea actualizar: ");
                     int idActualizar = validarEntero(teclado);
 
@@ -126,25 +137,20 @@ public class Main {
                     clientUseCase.actualizarCliente(idActualizar, nuevoNombre, nuevoEmail);
                     System.out.println(" CLIENTE ACTUALIZADO CON ÉXITO");
                     break;
-                    
 
                 case 4:
-                
+
                     System.out.print("Ingrese el ID del cliente a eliminar: ");
                     int idEliminar = validarEntero(teclado);
 
-                    clientUseCase.eliminarCliente(idEliminar);
-                    System.out.println(" CLIENTE ELIMINADO CON ÉXITO");
-
+                    // Verificar si el cliente existe antes de eliminarlo
                     if (clientUseCase.obtenerCliente(idEliminar) != null) {
                         clientUseCase.eliminarCliente(idEliminar);
-                        System.out.println("el cliente no  ha sido eliminado exitosamente ");
-
-                    }else {
-                        System.out.println("El cliente con id " + idEliminar + "ya no existe");
+                        System.out.println(" CLIENTE ELIMINADO CON ÉXITO");
+                    } else {
+                        System.out.println(" ERROR: No se encontró un cliente con ID " + idEliminar);
                     }
                     System.out.println("------------------------------------------");
-                
                     break;
 
                 case 0:
@@ -179,15 +185,26 @@ public class Main {
             teclado.nextLine();
 
             switch (opcion) {
-                case 1:         // registro producto
+                case 1: // registro producto
                     System.out.print("Ingrese el ID del producto: ");
                     int id = validarEntero(teclado);
+
+                    if (productUseCase.obtenerproducto(id) != null) {
+                        System.out.println(" ERROR: Ya existe un producto con ID " + id);
+                        break;
+                    }
+                
 
                     System.out.print("Ingrese el nombre del producto: ");
                     String nombre = teclado.nextLine();
 
                     System.out.print("Ingrese el stock del producto: ");
                     int stock = validarEntero(teclado);
+
+                    if (stock < 0) {
+                        System.out.println(" ERROR: El stock no puede ser negativo.");
+                        break;
+                    }
 
                     productUseCase.registrarproducto(id, nombre, stock);
                     System.out.println(" PRODUCTO REGISTRADO CON ÉXITO");
@@ -201,7 +218,7 @@ public class Main {
                     }
                     break;
 
-                case 3:     // actualizo producto
+                case 3: // actualizo producto
                     System.out.print("Ingrese el ID del producto a actualizar: ");
                     int idActualizar = validarEntero(teclado);
 
@@ -219,8 +236,14 @@ public class Main {
                     System.out.print("Ingrese el ID del producto a eliminar: ");
                     int idEliminar = validarEntero(teclado);
 
-                    productUseCase.eliminarproducto(idEliminar);
-                    System.out.println(" PRODUCTO ELIMINADO CON ÉXITO");
+                    // Verificar si el producto existe antes de eliminarlo
+                    if (productUseCase.obtenerproducto(idEliminar) != null) {
+                        productUseCase.eliminarproducto(idEliminar);
+                        System.out.println(" PRODUCTO ELIMINADO CON ÉXITO");
+                    } else {
+                        System.out.println(" ERROR: No se encontró un producto con ID " + idEliminar);
+                    }
+                    System.out.println("------------------------------------------");
                     break;
 
                 case 0:
